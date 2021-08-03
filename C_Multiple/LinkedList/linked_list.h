@@ -2,7 +2,7 @@
 #define __LINKEDLIST_H__
 
 typedef int ElementType;
-typedef struct Node *PtrToNode;
+typedef struct Node *PtrToNode;//* PrtToNode = &Node
 struct Node
 {
     ElementType Data;
