@@ -90,11 +90,6 @@ List reverse(List l) {
 }
 
 int main() {
-	// List l1 = readHead();
-	// print(l1);
-	// print(reverse(l1));
-	// List l2 = readTail();
-	// print(l2);
 	int a[] = { 2, 3, 4, 5, 6, 1, 2, 3, 4, 5 };
 	List l3 = toList(a, 10);
 	print(l3);

@@ -1,31 +1,84 @@
 #include "sort.h"
-#include "time.h"
+#include <stdlib.h> //qsort
+#include <time.h>
 
 int main(int argc, char const* argv[]) {
-	// clock_t t1 = clock();
-	// int m = 100000000;
-	// while (m--) {
-	// 	int a[] = { 2, 1, 3, 4, 8, 7, 5, 6, 11, 10 };
-	// 	shell_sort(a, n);
-	// }
-	// printf("CUP time used: %d\n", clock() - t1);
-	// clock_t t2 = clock();
-	// m = 100000000;
-	// while (m--) {
-	// 	int a[] = { 2, 1, 3, 4, 8, 7, 5, 6, 11, 10 };
-	// 	insertion_sort(a, n);
-	// }
-	// printf("CUP time used: %d\n", clock() - t2);
-	// clock_t t3 = clock();
-	// m = 100000000;
-	// while (m--) {
-	// 	int a[] = { 2, 1, 3, 4, 8, 7, 5, 6, 11, 10 };
-	// 	selection_sort(a, n);
-	// }
-	// printf("CUP time used: %d\n", clock() - t2);
+	const int SIZE = 1000000;
+	const int n = 100;
+	int m;
+	int b[n];
+	srand((unsigned)1);
+	for (int i = 0; i < n; ++i) {
+		b[n] = rand;
+	}
 
-	int c[] = { 2, 1, 4, 3, 9, 7, 5, 1438291, 8, 0 };
-	merge_sort_ub(c, 10);
-	show(c, 10);
+	if (1) {
+		clock_t t6 = clock();
+		m = SIZE;
+		while (m--) {
+			int a[n];
+			for (int i = 0; i < n; ++i) {
+				a[n] = rand;
+			}
+			qsort(a, 10, sizeof(*a), less);
+		}
+		printf("CUP time used: %d\tqsort\n", clock() - t6);
+
+		clock_t t1 = clock();
+		m = SIZE;
+		while (m--) {
+			int a[n];
+			for (int i = 0; i < n; ++i) {
+				a[n] = rand;
+			}
+			shell_sort(a, n);
+		}
+		printf("CUP time used: %d\tshell_sort\n", clock() - t1);
+		clock_t t2 = clock();
+		m = SIZE;
+		while (m--) {
+			int a[n];
+			for (int i = 0; i < n; ++i) {
+				a[n] = rand;
+			}
+			insertion_sort(a, n);
+		}
+		printf("CUP time used: %d\tinsertion_sort\n", clock() - t2);
+		clock_t t3 = clock();
+		m = SIZE;
+		while (m--) {
+			int a[n];
+			for (int i = 0; i < n; ++i) {
+				a[n] = rand;
+			}
+			selection_sort(a, n);
+		}
+		printf("CUP time used: %d\tselection_sort\n", clock() - t3);
+		clock_t t4 = clock();
+		m = SIZE;
+		while (m--) {
+			int a[n];
+			for (int i = 0; i < n; ++i) {
+				a[n] = rand;
+			}
+			merge_sort(a, n);
+		}
+		printf("CUP time used: %d\tmerge_sort\n", clock() - t4);
+		clock_t t5 = clock();
+		m = SIZE;
+		while (m--) {
+			int a[n];
+			for (int i = 0; i < n; ++i) {
+				a[n] = rand;
+			}
+			quick_sort(a, 0, n);
+			if(m==1)
+			show(a,n);
+		}
+		printf("CUP time used: %d\tquick_sort\n", clock() - t5);
+	}
+
+
+
 	return 0;
 }
