@@ -1,9 +1,12 @@
+// 结构性: 用数组表示的完全二叉树
+// 有序性: 任一节点的关键字是去子树的所有节点的最大值(或最小值)
 #if !defined(__HEAP_H__)
 #define __HEAP_H__
 #include <stdio.h>
 #include <stdlib.h>
-// 结构性: 用数组表示的完全二叉树
-// 有序性: 任一节点的关键字是去子树的所有节点的最大值(或最小值)
+#define ERROR -1	  /* 错误标识应根据具体情况定义为堆中不可能出现的元素值 */
+#define MAXDATA 65535 /* 该值应根据具体情况定义为大于堆中所有可能元素的值 */
+
 typedef struct HNode* Heap; /* 堆的类型定义 */
 typedef int ElementType;
 struct HNode {
@@ -14,41 +17,28 @@ struct HNode {
 typedef Heap MaxHeap; /* 最大堆 */
 typedef Heap MinHeap; /* 最小堆 */
 
-#define MAXDATA 1000 /* 该值应根据具体情况定义为大于堆中所有可能元素的值 */
-
-MaxHeap CreateHeap(int MaxSize) { /* 创建容量为MaxSize的空的最大堆 */
-
+MaxHeap CreateMax(int MaxSize) { /* 创建容量为MaxSize的空的最大堆 */
 	MaxHeap H = (MaxHeap)malloc(sizeof(struct HNode));
 	H->Data = (ElementType*)malloc((MaxSize + 1) * sizeof(ElementType));
 	H->Size = 0;
 	H->Capacity = MaxSize;
 	H->Data[0] = MAXDATA; /* 定义"哨兵"为大于堆中所有可能元素的值*/
-
 	return H;
 }
+bool IsFull(MaxHeap H) { return (H->Size == H->Capacity); }
 
-bool IsFull(MaxHeap H) {
-	return (H->Size == H->Capacity);
-}
+bool IsEmpty(MaxHeap H) { return (H->Size == 0); }
 
 bool Insert(MaxHeap H, ElementType X) { /* 将元素X插入最大堆H，其中H->Data[0]已经定义为哨兵 */
 	int i;
-
 	if (IsFull(H)) {
 		printf("最大堆已满");
 		return false;
 	}
-	i = ++H->Size; /* i指向插入后堆中的最后一个元素的位置 */
-	for (; H->Data[i / 2] < X; i /= 2)
-		H->Data[i] = H->Data[i / 2]; /* 上滤X */
-	H->Data[i] = X;					 /* 将X插入 */
+	for (i = ++H->Size; H->Data[i / 2] < X; i /= 2) /* i指向插入后堆中的最后一个元素的位置 */
+		H->Data[i] = H->Data[i / 2];				/* 上滤X(父节点下移) */
+	H->Data[i] = X;									/* 将X插入 */
 	return true;
-}
-
-#define ERROR -1 /* 错误标识应根据具体情况定义为堆中不可能出现的元素值 */
-
-bool IsEmpty(MaxHeap H) {
-	return (H->Size == 0);
 }
 
 ElementType DeleteMax(MaxHeap H) { /* 从最大堆H中取出键值为最大的元素，并删除一个结点 */
@@ -81,7 +71,6 @@ ElementType DeleteMax(MaxHeap H) { /* 从最大堆H中取出键值为最大的�
 void PercDown(MaxHeap H, int p) { /* 下滤：将H中以H->Data[p]为根的子堆调整为最大堆 */
 	int Parent, Child;
 	ElementType X;
-
 	X = H->Data[p]; /* 取出根结点存放的值 */
 	for (Parent = p; Parent * 2 <= H->Size; Parent = Child) {
 		Child = Parent * 2;
@@ -97,9 +86,7 @@ void PercDown(MaxHeap H, int p) { /* 下滤：将H中以H->Data[p]为根的子�
 
 void BuildHeap(MaxHeap H) { /* 调整H->Data[]中的元素，使满足最大堆的有序性  */
 							/* 这里假设所有H->Size个元素已经存在H->Data[]中 */
-
 	int i;
-
 	/* 从最后一个结点的父节点开始，到根结点1 */
 	for (i = H->Size / 2; i > 0; i--)
 		PercDown(H, i);
